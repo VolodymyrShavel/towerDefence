@@ -53,20 +53,16 @@ function toggleFullScreen() {
 fullScreenButton.addEventListener('click', toggleFullScreen);
 
 const enemies = [];
-function spawnEnemies(spawnCount, enemyHp) {
+function spawnEnemies(spawnCount, enemyHp = 0) {
    for (let i = 1; i < spawnCount + 1; i++) {
       const xOffset = i * 150;
       let newEnemy = new Enemy({
          position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
+         health: 200,
       });
       // newEnemy = newEnemy = {health: 50};
-      let addHP = 150;
-      newEnemy.healthLine += addHP;
-      newEnemy.health += addHP;
-      // const enemyHp = newEnemy.health+50
-      // const empEnemy = newEnemy
-      // let nextWaveEnemies = newEnemy.health + 50;
-      // let next = (newEnemy.health += 50);
+      newEnemy.healthLine += enemyHp;
+      newEnemy.health += enemyHp;
       enemies.push(newEnemy);
    }
 }
@@ -74,7 +70,8 @@ function spawnEnemies(spawnCount, enemyHp) {
 const buildings = [];
 let activeTile = undefined;
 let enemyCount = 3;
-let hp = 100;
+let wave = 1;
+let hp = 150;
 let hearts = 10;
 let coins = 100;
 let health = 100;
@@ -115,10 +112,16 @@ function animate() {
       }
    }
 
+   // document.querySelector('#wave').innerHTML = `Wave: ${wave} / 10`;
+
    // Track total amount of enemies
    if (enemies.length === 0) {
       enemyCount += 2;
       // enemies.nextWave();
+      wave += 1;
+      document.querySelector('#wave').innerHTML = `Wave: ${wave} / 999`;
+      // Enemy.health += hp;
+      // console.log(new Enemy());
       spawnEnemies(enemyCount);
    }
 

@@ -4,7 +4,7 @@ class Sprite {
       imageSrc,
       frames = {max: 1},
       offset = {x: 0, y: 0},
-      health = 0,
+      health,
    }) {
       this.position = position;
       this.image = new Image();
