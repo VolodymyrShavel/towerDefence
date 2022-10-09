@@ -36,6 +36,10 @@ class Enemy extends Sprite {
          (this.width * this.health) / 100,
          10
       );
+
+      c.font = '18px';
+      c.fillStyle = 'white';
+      c.fillText(this.health, this.position.x + 42.5, this.position.y - 6.5);
    }
 
    update() {
