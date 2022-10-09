@@ -15,7 +15,8 @@ class Enemy extends Sprite {
          y: this.position.y + this.height / 2,
       };
       this.radius = 50;
-      this.health = 100;
+      this.health;
+      this.healthLine = this.health;
       this.velocity = {
          x: 0,
          y: 0,
@@ -28,12 +29,12 @@ class Enemy extends Sprite {
 
       // Health bar
       c.fillStyle = 'red';
-      c.fillRect(this.position.x, this.position.y - 15, this.width, 10);
+      c.fillRect(this.position.x, this.position.y - 15, this.width - 2, 10);
       c.fillStyle = 'green';
       c.fillRect(
          this.position.x,
          this.position.y - 15,
-         (this.width * this.health) / 100,
+         (this.health * this.width) / this.healthLine - 2,
          10
       );
 

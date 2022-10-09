@@ -4,6 +4,7 @@ class Sprite {
       imageSrc,
       frames = {max: 1},
       offset = {x: 0, y: 0},
+      health = 0,
    }) {
       this.position = position;
       this.image = new Image();
@@ -15,6 +16,7 @@ class Sprite {
          hold: 3,
       };
       this.offset = offset;
+      this.health = health;
    }
 
    draw() {

@@ -11,16 +11,11 @@
          href="https://fonts.googleapis.com/css2?family=Changa+One&display=swap"
          rel="stylesheet"
       />
-      <style>
-         body {
-            background-color: black;
-            font-family: 'Changa One', cursive;
-         }
-      </style>
+      <link rel="stylesheet" href="style.css" />
    </head>
    <body>
       <div style="position: relative; display: inline-block">
-         <canvas></canvas>
+         <canvas id="canvas1"></canvas>
          <div
             id="gameOver"
             style="
@@ -98,6 +93,7 @@
                <div id="hearts">10</div>
             </div>
          </div>
+         <button id="fullScreenButton">Toggle Fullscreen</button>
       </div>
       <script src="./game/placementTilesData.js"></script>
       <script src="./game/wayPoints.js"></script>

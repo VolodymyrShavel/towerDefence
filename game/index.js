@@ -3,6 +3,7 @@ const c = canvas.getContext('2d');
 
 canvas.width = 1280;
 canvas.height = 768;
+const fullScreenButton = document.getElementById('fullScreenButton');
 
 c.fillStyle = 'white';
 c.fillRect(0, 0, canvas.width, canvas.height);
@@ -39,15 +40,33 @@ img.onload = () => {
 
 img.src = 'img/gameMap.png';
 
+function toggleFullScreen() {
+   console.log(document.fullScreenElement);
+   if (!document.fullscreenElement) {
+      canvas.requestFullscreen().catch((err) => {
+         alert(`Error, can't enable full-screen mode: ${err.message}`);
+      });
+   } else {
+      document.exitFullscreen();
+   }
+}
+fullScreenButton.addEventListener('click', toggleFullScreen);
+
 const enemies = [];
-function spawnEnemies(spawnCount) {
+function spawnEnemies(spawnCount, enemyHp) {
    for (let i = 1; i < spawnCount + 1; i++) {
       const xOffset = i * 150;
-      const newEnemy = new Enemy({
+      let newEnemy = new Enemy({
          position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
       });
+      // newEnemy = newEnemy = {health: 50};
+      let addHP = 150;
+      newEnemy.healthLine += addHP;
+      newEnemy.health += addHP;
       // const enemyHp = newEnemy.health+50
       // const empEnemy = newEnemy
+      // let nextWaveEnemies = newEnemy.health + 50;
+      // let next = (newEnemy.health += 50);
       enemies.push(newEnemy);
    }
 }
@@ -58,6 +77,7 @@ let enemyCount = 3;
 let hp = 100;
 let hearts = 10;
 let coins = 100;
+let health = 100;
 const explosions = [];
 spawnEnemies(enemyCount);
 
