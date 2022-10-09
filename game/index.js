@@ -32,10 +32,12 @@ placementTilesData2D.forEach((row, y) => {
 });
 
 const img = new Image();
+
 img.onload = () => {
    animate();
 };
-img.src = '../img/gameMap.png';
+
+img.src = 'img/gameMap.png';
 
 const enemies = [];
 function spawnEnemies(spawnCount) {
@@ -147,7 +149,7 @@ function animate() {
                      x: projectile.position.x,
                      y: projectile.position.y,
                   },
-                  imageSrc: '../img/explosion.png',
+                  imageSrc: './img/explosion.png',
                   frames: {max: 4},
                   offset: {x: 0, y: 0},
                })
