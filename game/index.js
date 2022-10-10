@@ -54,7 +54,7 @@ fullScreenButton.addEventListener('click', toggleFullScreen);
 
 const enemies = [];
 let wave = 1;
-function spawnEnemies(spawnCount, enemyHp = 0) {
+function spawnEnemies(spawnCount) {
    for (let i = 1; i < spawnCount + 1; i++) {
       const xOffset = i * 150;
       let enemyHp = 100;
@@ -80,6 +80,7 @@ function spawnEnemies(spawnCount, enemyHp = 0) {
 
 const buildings = [];
 let activeTile = undefined;
+let activeBuilding = undefined;
 let enemyCount = 3;
 let hp = 150;
 let hearts = 10;
@@ -203,18 +204,13 @@ canvas.addEventListener('click', (e) => {
    if (activeTile && !activeTile.isOccupied && coins - 50 >= 0) {
       coins -= 50;
       document.querySelector('#coins').innerHTML = coins;
-      buildings.push(
-         new Building({
-            position: {x: activeTile.position.x - 27, y: activeTile.position.y},
-         })
-      );
+      let newBuilding = new Building({
+         position: {x: activeTile.position.x - 27, y: activeTile.position.y},
+      });
+      buildings.push(newBuilding);
       activeTile.isOccupied = true;
       buildings.sort((a, b) => {
          return a.position.y - b.position.y;
-      });
-
-      buildings.map((building) => {
-         console.log('clicked: ' + building.width);
       });
    }
    // c.beginPath();
@@ -239,5 +235,18 @@ window.addEventListener('mousemove', (e) => {
          activeTile = tile;
       }
    }
+
    // activeTile = tile
+});
+
+buildings.forEach((building) => {
+   if (
+      mouse.x > building.position.x &&
+      mouse.x < building.position.x + building.width &&
+      mouse.y > building.position.y &&
+      mouse.y < building.position.y + building.height
+   ) {
+      console.log('Hello');
+   }
+   // drawCircle();
 });
