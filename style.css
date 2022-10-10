@@ -24,3 +24,25 @@ body {
       display: flex;
    }
 }
+
+ul {
+   position: absolute;
+   right: 0;
+   background: yellow;
+   list-style: none;
+   margin: 10px 10px 10px 10px;
+   padding: 0px;
+   float: left;
+}
+
+ul li {
+   font-weight: bold;
+}
+ul li span {
+   font-weight: normal;
+}
+ul li #preview {
+   width: 50px;
+   height: 50px;
+   border: 1px solid black;
+}

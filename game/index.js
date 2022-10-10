@@ -23,7 +23,7 @@ placementTilesData2D.forEach((row, y) => {
          placementTiles.push(
             new PlacementTile({
                position: {
-                  x: x * 64,
+                  x: x * 64 + 30,
                   y: y * 64,
                },
             })
@@ -53,16 +53,27 @@ function toggleFullScreen() {
 fullScreenButton.addEventListener('click', toggleFullScreen);
 
 const enemies = [];
+let wave = 1;
 function spawnEnemies(spawnCount, enemyHp = 0) {
    for (let i = 1; i < spawnCount + 1; i++) {
       const xOffset = i * 150;
-      let newEnemy = new Enemy({
-         position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
-         health: 200,
-      });
+      let enemyHp = 100;
+      let increaseHpValue = 5;
+      let increaseHp = enemyHp + increaseHpValue * wave;
       // newEnemy = newEnemy = {health: 50};
-      newEnemy.healthLine += enemyHp;
-      newEnemy.health += enemyHp;
+      const newEnemy =
+         wave == 1
+            ? new Enemy({
+                 position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
+                 health: enemyHp,
+              })
+            : new Enemy({
+                 position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
+                 health: increaseHp,
+              });
+      // newEnemy.healthLine += enemyHp;
+      // newEnemy.health += enemyHp;
+      // console.log(newEnemy.health);
       enemies.push(newEnemy);
    }
 }
@@ -70,7 +81,6 @@ function spawnEnemies(spawnCount, enemyHp = 0) {
 const buildings = [];
 let activeTile = undefined;
 let enemyCount = 3;
-let wave = 1;
 let hp = 150;
 let hearts = 10;
 let coins = 100;
@@ -115,13 +125,13 @@ function animate() {
    // document.querySelector('#wave').innerHTML = `Wave: ${wave} / 10`;
 
    // Track total amount of enemies
+   // console.log({Enemy});
    if (enemies.length === 0) {
       enemyCount += 2;
       // enemies.nextWave();
       wave += 1;
       document.querySelector('#wave').innerHTML = `Wave: ${wave} / 999`;
       // Enemy.health += hp;
-      // console.log(new Enemy());
       spawnEnemies(enemyCount);
    }
 
@@ -195,14 +205,22 @@ canvas.addEventListener('click', (e) => {
       document.querySelector('#coins').innerHTML = coins;
       buildings.push(
          new Building({
-            position: {x: activeTile.position.x, y: activeTile.position.y},
+            position: {x: activeTile.position.x - 27, y: activeTile.position.y},
          })
       );
       activeTile.isOccupied = true;
       buildings.sort((a, b) => {
          return a.position.y - b.position.y;
       });
+
+      buildings.map((building) => {
+         console.log('clicked: ' + building.width);
+      });
    }
+   // c.beginPath();
+   // c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
+   // c.fillStyle = 'rgba(0, 0, 255, 0.2)';
+   // c.fill();
 });
 
 window.addEventListener('mousemove', (e) => {
