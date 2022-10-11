@@ -58,14 +58,20 @@ function spawnEnemies(spawnCount) {
    for (let i = 1; i < spawnCount + 1; i++) {
       const xOffset = i * 150;
       let enemyHp = 100;
-      let increaseHpValue = 5;
+      let increaseHpValue = 10;
       let increaseHp = enemyHp + increaseHpValue * wave;
+      let previousHp = enemyHp + increaseHpValue * (wave - 1);
       // newEnemy = newEnemy = {health: 50};
       const newEnemy =
          wave == 1
             ? new Enemy({
                  position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
-                 health: enemyHp,
+                 health: previousHp,
+              })
+            : wave % 2 === 0
+            ? new Enemy({
+                 position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
+                 health: previousHp,
               })
             : new Enemy({
                  position: {x: waypoints[0].x - xOffset, y: waypoints[0].y},
@@ -128,7 +134,9 @@ function animate() {
    // Track total amount of enemies
    // console.log({Enemy});
    if (enemies.length === 0) {
-      enemyCount += 2;
+      if (wave % 2 == 0) {
+         enemyCount += 1;
+      }
       // enemies.nextWave();
       wave += 1;
       document.querySelector('#wave').innerHTML = `Wave: ${wave} / 999`;
@@ -163,7 +171,17 @@ function animate() {
          if (distance < projectile.enemy.radius + projectile.radius) {
             // Enemy health and enemy removal
 
-            projectile.enemy.health -= 20;
+            if (wave > 45) {
+               projectile.enemy.health -= 12;
+            } else if (wave > 35) {
+               projectile.enemy.health -= 14;
+            } else if (wave > 25) {
+               projectile.enemy.health -= 16;
+            } else if (wave > 15) {
+               projectile.enemy.health -= 18;
+            } else if (wave > 0) {
+               projectile.enemy.health -= 20;
+            }
 
             if (projectile.enemy.health <= 0) {
                const enemyIndex = enemies.findIndex((enemy) => {
@@ -219,6 +237,14 @@ canvas.addEventListener('click', (e) => {
    // c.fill();
 });
 
+document.addEventListener('click', onMouseClick, false);
+
+function onMouseClick(e) {
+   mouseClicked = !mouseClicked;
+}
+var mouseClicked = false,
+   mouseReleased = true;
+
 window.addEventListener('mousemove', (e) => {
    mouse.x = e.clientX;
    mouse.y = e.clientY;
@@ -236,17 +262,28 @@ window.addEventListener('mousemove', (e) => {
       }
    }
 
+   // buildings.forEach((building) => {
+   //    if (mouseClicked) {
+   //       if (
+   //          mouse.x > building.position.x &&
+   //          mouse.x < building.position.x + building.width &&
+   //          mouse.y > building.position.y &&
+   //          mouse.y < building.position.y + building.height
+   //       ) {
+   //          c.beginPath();
+   //          c.arc(
+   //             building.center.x,
+   //             building.center.y,
+   //             building.radius,
+   //             0,
+   //             Math.PI * 2
+   //          );
+   //          c.fillStyle = 'rgba(0, 0, 255, 0.2)';
+   //          c.fill();
+   //          console.log('log');
+   //       }
+   //       // drawCircle();
+   //    }
+   // });
    // activeTile = tile
-});
-
-buildings.forEach((building) => {
-   if (
-      mouse.x > building.position.x &&
-      mouse.x < building.position.x + building.width &&
-      mouse.y > building.position.y &&
-      mouse.y < building.position.y + building.height
-   ) {
-      console.log('Hello');
-   }
-   // drawCircle();
 });
